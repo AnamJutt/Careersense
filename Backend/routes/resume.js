@@ -1,5 +1,5 @@
 import express from 'express';
-import { saveResume,getResumeByEmail } from '../controllers/ResumeUpload';
+import { saveResume,getResumeByEmail } from '../controllers/ResumeUpload.js';
 
 const ResumeRouter= express.Router();
 ResumeRouter.post("/saveResume", saveResume);

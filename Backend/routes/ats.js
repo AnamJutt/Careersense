@@ -92,7 +92,9 @@ ats.post("/ats", upload.single("resume"), async (req, res) => {
     // Cleanup
     fs.unlinkSync(filePath);
 
-   res.status(200).json(result.object);
+   res.status(200).json({result:result.object,
+    text:text
+   });
 
   } catch (error) {
     console.error("This is console error ",error);

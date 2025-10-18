@@ -9,9 +9,9 @@ const ResumeUpload = () => {
   const [message, setMessage] = useState("");
   const [expandedCategory, setExpandedCategory] = useState(null); // track expanded
 
-  React.useEffect(()=>{
-    console.log( "THis is user from local storage ",JSON.parse(localStorage.getItem("user")).email)
-  },[])
+  // React.useEffect(()=>{
+  //   console.log( "THis is user from local storage ",JSON.parse(localStorage.getItem("user")).email)
+  // },[])
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setMessage(`Selected file: ${e.target.files[0]?.name}`);
@@ -43,6 +43,8 @@ const ResumeUpload = () => {
     }
   };
 
+
+
   const handleUpload = async () => {
     if (!file) {
       setMessage("Please select a file first.");
@@ -59,8 +61,14 @@ const ResumeUpload = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
+      const email=JSON.parse(localStorage.getItem("user")).email
+      const resume=res.data.text
+      const saveResume= await axios.post("http://localhost:4000/api/saveResume",{resume:resume,email:email})
+      console.log(saveResume)
 
-      setResult(res.data);
+      setResult(res.data.result);
+
+      
     } catch (err) {
       // console.error(err);
       setMessage("Upload failed. Try again.");
