@@ -4,6 +4,7 @@ import "dotenv/config";
 import { connectDB } from './config/db.js';
 import userRouters from './routes/userRouters.js';
 import { upload_folder } from './lib/Upload_Folder.js';
+import ResumeRouter from './routes/resume.js';
 import ats from './routes/ats.js';
 
 const app = express();
@@ -18,6 +19,8 @@ app.use(express.json());
 
 app.use("/api/auth", userRouters);
 app.use("/api", ats);
+app.use("/api",ResumeRouter)
+
 
 app.get('/', (req, res) => {
   res.send("API working");

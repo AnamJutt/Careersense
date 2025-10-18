@@ -9,6 +9,9 @@ const ResumeUpload = () => {
   const [message, setMessage] = useState("");
   const [expandedCategory, setExpandedCategory] = useState(null); // track expanded
 
+  React.useEffect(()=>{
+    console.log( "THis is user from local storage ",JSON.parse(localStorage.getItem("user")).email)
+  },[])
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setMessage(`Selected file: ${e.target.files[0]?.name}`);
@@ -56,9 +59,10 @@ const ResumeUpload = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
+
       setResult(res.data);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       setMessage("Upload failed. Try again.");
     }
 

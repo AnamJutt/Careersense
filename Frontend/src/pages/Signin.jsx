@@ -79,7 +79,7 @@ const Signin = () => {
         >
           Log In
         </button>
-          <h1 className="text-red-500 font-bold text-center py-2">{message}</h1>
+          <h1 className="text-red-500 text-sm text-center py-2">{message}</h1>
         {/* Divider */}
         <div className="flex items-center my-6">
           <hr className="flex-grow border-gray-300" />

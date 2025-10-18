@@ -16,16 +16,21 @@ const Signup = () => {
           }},[navigate])
 
   const handleSubmit = async() => {
+    if(password.length < 8){
+      setMessage("Password must be atleast of 8 characters")
+      return
+    }
    const data={
     email:email,
     password:password,
     name:name
    }
     try{
-      console.log(data)
+ 
      const res=await axios.post("http://localhost:4000/api/auth/register",data);
        localStorage.setItem("user", JSON.stringify(res.data)); 
        localStorage.setItem("token", res.data.token);
+       console.log(res)
       window.location.href = "/upload";
     }catch(err){
         const mess=err.response.data.message
@@ -80,7 +85,7 @@ const Signup = () => {
         >
           Sign Up
         </button>
-    <h1 className="text-red-500 font-bold text-center py-2">{message}</h1>
+    <h1 className="text-red-500 text-sm text-center py-2">{message}</h1>
         {/* Divider */}
         <div className="flex items-center my-6">
           <hr className="flex-grow border-gray-300" />

@@ -11,7 +11,7 @@ import { z } from "zod"
 const ats = express.Router();
 const upload = multer({ dest: "uploads/" });
 
-const gemini = google("models/gemini-1.5-flash");
+const gemini = google("gemini-2.0-flash");
 
     // Zod Schema
     const Schema=z.object({
@@ -61,10 +61,12 @@ ats.post("/ats", upload.single("resume"), async (req, res) => {
       const dataBuffer = fs.readFileSync(filePath);
       const pdfData = await pdfParse(dataBuffer);
       text = pdfData.text;
-    } else if (fileExt === "docx" || fileExt === "doc") {
+    } 
+    else if (fileExt === "docx" || fileExt === "doc") {
       const docData = await mammoth.extractRawText({ path: filePath });
       text = docData.value;
-    } else {
+    } 
+    else {
       return res.status(400).json({ error: "Invalid file type" });
     }
 
@@ -93,7 +95,7 @@ ats.post("/ats", upload.single("resume"), async (req, res) => {
    res.status(200).json(result.object);
 
   } catch (error) {
-    console.error(error);
+    console.error("This is console error ",error);
     res.status(500).json({ error: "Something went wrong" });
   }
 });
