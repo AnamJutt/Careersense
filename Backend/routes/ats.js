@@ -47,7 +47,8 @@ const gemini = google("gemini-2.0-flash");
     title: z.string(),
     status: z.enum(["pass","fail","partial"]),
     message: z.string()
-  }))
+  })),
+  keywords: z.array(z.string()).nonempty("At least one keyword is required"),
 });
 
 
@@ -93,7 +94,6 @@ ats.post("/ats", upload.single("resume"), async (req, res) => {
     fs.unlinkSync(filePath);
 
    res.status(200).json({result:result.object,
-    text:text
    });
 
   } catch (error) {
@@ -101,5 +101,6 @@ ats.post("/ats", upload.single("resume"), async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
+
 
 export default ats;

@@ -7,11 +7,26 @@ const ResumeUpload = () => {
   const [result, setResult] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const [message, setMessage] = useState("");
-  const [expandedCategory, setExpandedCategory] = useState(null); // track expanded
+  const [expandedCategory, setExpandedCategory] = useState(null); 
 
-  // React.useEffect(()=>{
-  //   console.log( "THis is user from local storage ",JSON.parse(localStorage.getItem("user")).email)
-  // },[])
+  React.useEffect(()=>{
+    const checkResume=async()=>{
+      try{
+      const email = JSON.parse(localStorage.getItem("user")).email
+      if(!email) return 
+      const res=await axios.get(`http://localhost:4000/api/getResume/${email}`)
+      if(res.data.status){
+        setResult(res.data.resume);
+      }
+      
+      }
+      catch(err){
+        console.log("Check Resume Error",err)
+      }
+   
+    }
+    checkResume()
+  },[])
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setMessage(`Selected file: ${e.target.files[0]?.name}`);
@@ -43,8 +58,24 @@ const ResumeUpload = () => {
     }
   };
 
+  // Handle New Resume By Deleting the pervious resume
+  const handleNewResume = async () => {
+    try {
+      const email = JSON.parse(localStorage.getItem("user")).email
+      const res = await axios.delete("http://localhost:4000/api/deleteResume",{
+        data:{email:email}})
+      console.log(res)
+      setResult(null);
+      setFile(null);
+      setMessage("");
 
+    } catch (err) {
+      console.log("This is Upload new Resume Error",err)
+    }
 
+  }
+
+  // Upload REsume and Save in Database
   const handleUpload = async () => {
     if (!file) {
       setMessage("Please select a file first.");
@@ -60,15 +91,15 @@ const ResumeUpload = () => {
       const res = await axios.post("http://localhost:4000/api/ats", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      console.log(res.data.result)
 
-      const email=JSON.parse(localStorage.getItem("user")).email
-      const resume=res.data.text
-      const saveResume= await axios.post("http://localhost:4000/api/saveResume",{resume:resume,email:email})
-      console.log(saveResume)
-
+      const email = JSON.parse(localStorage.getItem("user")).email
+      const resume =res.data.result 
+      const saveResume = await axios.post("http://localhost:4000/api/saveResume", { resume: resume, email: email })
+      
       setResult(res.data.result);
 
-      
+
     } catch (err) {
       // console.error(err);
       setMessage("Upload failed. Try again.");
@@ -80,96 +111,95 @@ const ResumeUpload = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-8">
       {!result ? (
-       <div className="border-2 border-dashed border-blue-400 w-full max-w-3xl rounded-md bg-gray-50 shadow-md">
-  {/* Header */}
-  <div className="bg-gray-100 border-b border-blue-400 px-6 py-3 text-gray-700 font-semibold text-sm">
-    UPLOAD YOUR RESUME
-  </div>
+        <div className="border-2 border-dashed border-blue-400 w-full max-w-3xl rounded-md bg-gray-50 shadow-md">
+          {/* Header */}
+          <div className="bg-gray-100 border-b border-blue-400 px-6 py-3 text-gray-700 font-semibold text-sm">
+            UPLOAD YOUR RESUME
+          </div>
 
-  <div className="flex flex-col items-center justify-center py-10 px-6">
-    {/* Upload Icon */}
-    <div className="mb-6 text-blue-500">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-16 h-16 mx-auto"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M7 16a4 4 0 01-.88-7.903A5.002 5.002 0 0115.9 6h.1a5 5 0 010 10H7z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M12 12v9m0 0l-3-3m3 3l3-3"
-        />
-      </svg>
-    </div>
+          <div className="flex flex-col items-center justify-center py-10 px-6">
+            {/* Upload Icon */}
+            <div className="mb-6 text-blue-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-16 h-16 mx-auto"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M7 16a4 4 0 01-.88-7.903A5.002 5.002 0 0115.9 6h.1a5 5 0 010 10H7z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 12v9m0 0l-3-3m3 3l3-3"
+                />
+              </svg>
+            </div>
 
-    {/* Drag-and-drop area */}
-    <div
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-      className={`w-full max-w-lg p-10 border-2 border-dashed rounded-lg transition-colors duration-200 text-center ${
-        dragOver ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-white"
-      }`}
-    >
-      <p className="text-gray-700 font-medium mb-2">
-        {file
-          ? `Selected file: ${file.name}`
-          : "Drag & drop your resume here"}
-      </p>
-      <p className="text-gray-500 text-sm mb-6">
-        or choose a file and upload
-      </p>
+            {/* Drag-and-drop area */}
+            <div
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              className={`w-full max-w-lg p-10 border-2 border-dashed rounded-lg transition-colors duration-200 text-center ${dragOver ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-white"
+                }`}
+            >
+              <p className="text-gray-700 font-medium mb-2">
+                {file
+                  ? `Selected file: ${file.name}`
+                  : "Drag & drop your resume here"}
+              </p>
+              <p className="text-gray-500 text-sm mb-6">
+                or choose a file and upload
+              </p>
 
-      {/* Buttons */}
-      <div className="flex items-center gap-4 justify-center">
-        <input
-          type="file"
-          accept=".pdf,.doc,.docx"
-          onChange={handleFileChange}
-          className="hidden"
-          id="fileInput"
-        />
-        <label
-          htmlFor="fileInput"
-          className="cursor-pointer inline-block px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
-        >
-          Choose File
-        </label>
+              {/* Buttons */}
+              <div className="flex items-center gap-4 justify-center">
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  id="fileInput"
+                />
+                <label
+                  htmlFor="fileInput"
+                  className="cursor-pointer inline-block px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+                >
+                  Choose File
+                </label>
 
-        <button
-          onClick={handleUpload}
-          disabled={loading}
-          className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md font-medium shadow-sm disabled:opacity-50"
-        >
-          {loading ? "Uploading..." : "Upload"}
-        </button>
-      </div>
-    </div>
+                <button
+                  onClick={handleUpload}
+                  disabled={loading}
+                  className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md font-medium shadow-sm disabled:opacity-50"
+                >
+                  {loading ? "Uploading..." : "Upload"}
+                </button>
+              </div>
+            </div>
 
-    {/* Message */}
-    {message && (
-      <p className="mt-4 text-center text-gray-700 font-medium">
-        {message}
-      </p>
-    )}
+            {/* Message */}
+            {message && (
+              <p className="mt-4 text-center text-gray-700 font-medium">
+                {message}
+              </p>
+            )}
 
-    {/* Extra Info */}
-    <div className="mt-6 text-center">
-      <p className="text-sm text-gray-600">
-        Accepted formats: <span className="font-medium">.pdf, .doc, .docx</span>
-      </p>
-    </div>
-  </div>
-</div>
+            {/* Extra Info */}
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                Accepted formats: <span className="font-medium">.pdf, .doc, .docx</span>
+              </p>
+            </div>
+          </div>
+        </div>
       ) : (
         // === Dashboard Section (after response) ===
         <div className="max-w-6xl w-full bg-white shadow-md rounded-lg p-6">
@@ -178,11 +208,7 @@ const ResumeUpload = () => {
               Resume Scan Results
             </h2>
             <button
-              onClick={() => {
-                setResult(null);
-                setFile(null);
-                setMessage("");
-              }}
+              onClick={handleNewResume}
               className="px-4 py-2 bg-blue-600 text-white rounded-md"
             >
               Upload New Resume
@@ -281,13 +307,12 @@ const ResumeUpload = () => {
                       <p className="text-sm text-gray-600">{check.message}</p>
                     </div>
                     <span
-                      className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        check.status === "pass"
+                      className={`px-3 py-1 rounded-full text-sm font-semibold ${check.status === "pass"
                           ? "bg-green-100 text-green-700"
                           : check.status === "fail"
-                          ? "bg-red-100 text-red-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}
+                            ? "bg-red-100 text-red-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
                     >
                       {check.status.toUpperCase()}
                     </span>
