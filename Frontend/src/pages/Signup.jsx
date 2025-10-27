@@ -41,9 +41,13 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+<div
+  className="min-h-screen flex items-start justify-center bg-cover bg-center bg-no-repeat pt-[120px]"
+  style={{ backgroundImage: "url('/resume.jpg')" }}
+>
+
       <div
-        className="bg-white shadow-md rounded-lg p-8 w-full max-w-md"
+        className="bg-white shadow-md rounded-lg p-8 w-full max-w-md" 
       >
         {/* Title */}
         <h2 className="text-2xl font-semibold text-center mb-6">

@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <section className="bg-white min-h-[90vh] flex items-center">
+    <section className="bg-white min-h-[90vh] flex items-center pt-25" id="home">
       <div className="container mx-auto px-6 lg:px-20 flex flex-col lg:flex-row items-center justify-between">
         
         {/* Left Content */}
-        <div className="max-w-xl mb-10 -ml-8 mt-15 lg:mb-0">
-          <h1 className="text-4xl lg:text-4xl font-bold leading-tight mb-6">
+        <div className="max-w-xl mb-10 -ml-8 mt-10 lg:mb-0">
+          <h1 className="text-4xl lg:text-4xl font-bold leading-tight mb-6 mt-[-40px]">
             Analyze your Resume  And get Tailored job recommendations Instantly
           </h1>
           <p className="text-lg text-gray-500 mb-2">Upload your resume and get an instant ATS score.<br/> Fast, easy and designed to help you stand out<br/> with tailored job recommendations</p>

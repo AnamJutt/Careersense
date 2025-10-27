@@ -135,9 +135,12 @@ React.useEffect(() => {
     )
   }
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-8">
+   <div
+  className="min-h-screen bg-cover bg-center flex items-center justify-center p-8 pt-20" id="atsresume"
+  style={{ backgroundImage: "url('/uploadingresume.jpg')" }}
+>
       {!result ? (
-        <div className="border-2 border-dashed border-blue-400 w-full max-w-3xl rounded-md bg-gray-50 shadow-md">
+        <div className="border-2 border-fullrounded border-white w-full max-w-3xl rounded-md bg-gray-50 shadow-md ">
           {/* Header */}
           <div className="bg-gray-100 border-b border-blue-400 px-6 py-3 text-gray-700 font-semibold text-sm">
             UPLOAD YOUR RESUME

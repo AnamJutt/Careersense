@@ -120,3 +120,6 @@
         width: 210mm !important;
     }
 }
+html {
+  scroll-behavior: smooth;
+}

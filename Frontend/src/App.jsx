@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Footer from "./components/Footer";
+import BottomFooter from "./components/BottomFooter";
 import HelpSection from "./components/Helpsection";
 import Landingpage from "./components/Landingpage";
 import ResumeUpload from "./pages/ResumeUpload";
@@ -26,7 +27,7 @@ const App = () => {
       </PrivateRoute>}/>
       </Routes>
 
-      {location.pathname === "/" && <HelpSection />}
+      {location.pathname === "/" && <HelpSection /> }
       <Footer />
     </>
   );
