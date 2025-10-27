@@ -25,7 +25,7 @@ export default function Landingpage() {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setUser(null);
-    navigate("/"); // redirect home
+    navigate("/"); 
   };
 
   const renderAvatar = () => {
@@ -59,31 +59,6 @@ export default function Landingpage() {
         </div>
 
         {/* Desktop Menu */}
-        {/* <div className="hidden sm:flex items-center gap-4">
-          {user ? (
-            <>
-              <div className="flex items-center gap-2">{renderAvatar()}</div>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 bg-red-500 cursor-pointer text-white rounded-full hover:bg-red-600"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/signup" className="text-gray-700 font-medium hover:underline">
-                Join now
-              </Link>
-              <Link
-                to="/signin"
-                className="font-medium px-4 py-2 border border-blue-500 rounded-full text-blue-500 hover:bg-blue-50"
-              >
-                Sign in
-              </Link>
-            </>
-          )}
-        </div> */}
 
         <div className="hidden sm:flex items-center gap-6">
   {user ? (
@@ -98,34 +73,25 @@ export default function Landingpage() {
     </>
   ) : (
     <>
-      {/* 🔹 Navbar Menu Options */}
-<nav className="flex items-center gap-9 text-gray-700 font-medium mr-[170px]">
-  <a href="#home" className="hover:text-blue-600">
-    Home
-  </a>
-  <a href="#products" className="hover:text-blue-600">
-    Products
-  </a>
-  <Link to="/upload">
-  <a href="#atsresume" className="hover:text-blue-600">
-     ATS Resume
-  </a>
-  </Link>
-  <Link to="#savedjobs" className="hover:text-blue-600">
-     Jobs
-  </Link>
-  <Link to="#profile" className="hover:text-blue-600">
-    Saved Jobs
-  </Link>
-</nav>
+      {/* Navbar Menu Options */}
+       <nav className="flex items-center gap-9 text-gray-700 font-medium mr-[170px]">
+        <a href="#home" className="hover:text-blue-600">
+          Home
+          </a>
+          <a href="#products" className="hover:text-blue-600">
+            Products
+            </a>
+            <Link to="/upload">
+              <a href="#atsresume" className="hover:text-blue-600"> ATS Resume </a>
+            </Link>
+            <Link to="#savedjobs" className="hover:text-blue-600"> Jobs </Link>
+            <Link to="#profile" className="hover:text-blue-600"> Saved Jobs </Link>
+          </nav>
 
 
-      {/* 🔹 Auth Buttons */}
-      <Link to="/signup" className="text-gray-700 font-medium hover:underline">
-        Join now
-      </Link>
-      <Link
-        to="/signin"
+      {/* Auth Buttons */}
+      <Link to="/signup" className="text-gray-700 font-medium hover:underline"> Join now </Link>
+      <Link to="/signin"
         className="font-medium px-4 py-2 border border-blue-500 rounded-full text-blue-500 hover:bg-blue-50"
       >
         Sign in

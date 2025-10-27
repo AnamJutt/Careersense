@@ -8,7 +8,7 @@ import BottomFooter from "./components/BottomFooter";
 import HelpSection from "./components/Helpsection";
 import Landingpage from "./components/Landingpage";
 import ResumeUpload from "./pages/ResumeUpload";
-import { PrivateRoute } from "./components/PrivateRoute";
+import { PrivateRoute } from "./components/PrivateRoute.jsx";
 
 const App = () => {
   const location = useLocation(); 
